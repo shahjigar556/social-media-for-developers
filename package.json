@@ -19,7 +19,7 @@
   },
   "homepage": "https://github.com/shahjigar556/social-media-for-developers#readme",
   "dependencies": {
-    "bcryptjs": "^2.4.3",
+    "bcrypt": "^5.0.0",
     "concurrently": "^5.3.0",
     "config": "^3.3.3",
     "express": "^4.17.1",
