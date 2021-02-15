@@ -5,7 +5,7 @@ const bcrypt=require('bcrypt')
 const config=require('config')
 const jwt=require('jsonwebtoken');
 // @GET api/auth
-// @desc
+// @desc  authenticating user
 // @Public
 
 router.post('/',async (req,res)=>{
@@ -16,7 +16,7 @@ router.post('/',async (req,res)=>{
     }
 
     const {email,password}=req.body;
-    console.log(password)
+    
     // check if email exists
     
     try{
@@ -26,8 +26,7 @@ router.post('/',async (req,res)=>{
         }
 
     // user found check for password
-    console.log(user.email)
-    console.log(user.password)
+   
     const match = await bcrypt.compare(password, user.password)
     if(!match){
         return res.status(401).json({"msg":"Invalid credentials"})
@@ -42,7 +41,7 @@ router.post('/',async (req,res)=>{
 
     }catch(ex){
         console.log(ex.message)
-        res.status(500).send("server error")
+        return res.status(500).send("server error")
     }
     
 })

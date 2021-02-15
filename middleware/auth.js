@@ -11,6 +11,6 @@ module.exports=function(req,res,next){
       req.user=decoded
       next();
     }catch(ex){
-        return res.status(404).json({"msg":"Authentication failed(wrong token)"})
+        return res.status(401).json({"msg":"Authentication failed(wrong token)"})
     }
 }
