@@ -1,7 +1,12 @@
 const app = require("express");
 const router = app.Router();
 const auth = require("../../middleware/auth");
-const { Profile, validateProfile,validateExperience } = require("../../models/Profile");
+const {
+  Profile,
+  validateProfile,
+  validateExperience,
+  validateEducation,
+} = require("../../models/Profile");
 const { Users } = require("../../models/Users");
 
 // @GET api/profile/me
@@ -14,7 +19,7 @@ router.get("/me", auth, async (req, res) => {
     const profile = await Profile.findOne({
       user: req.user.id,
     }).populate("user", ["name", "avatar"]);
-  
+
     if (!profile) {
       return res.status(400).json({ msg: "No Profile Present" });
     }
@@ -31,11 +36,11 @@ router.get("/me", auth, async (req, res) => {
 
 router.post("/", auth, async (req, res) => {
   //validate data
-  const {error}=validateProfile(req.body);
-  console.log(error)
-  if(error){
-      const message=error.details[0].message;
-      return res.status(400).json(message)
+  const { error } = validateProfile(req.body);
+  console.log(error);
+  if (error) {
+    const message = error.details[0].message;
+    return res.status(400).json(message);
   }
 
   const {
@@ -78,7 +83,7 @@ router.post("/", auth, async (req, res) => {
       // update the profile
       profile = await Profile.findOneAndUpdate(
         { user: req.user.id },
-        { $set:  ProfileFields  },
+        { $set: ProfileFields },
         { new: true }
       );
       return res.json(profile);
@@ -153,84 +158,141 @@ router.delete("/", auth, async (req, res) => {
 //   @desc Adding experience of the user
 //   @Private
 
-router.put('/experience',auth,async (req,res)=>{
-
-  const id=req.user.id;
+router.put("/experience", auth, async (req, res) => {
+  const id = req.user.id;
 
   try {
-    
-    const profile=await Profile.findOne({user:id})
-    if(!profile){
-      return res.status(400).json({msg:"First Complete the profile"});
+    const profile = await Profile.findOne({ user: id });
+    if (!profile) {
+      return res.status(400).json({ msg: "First Complete the profile" });
     }
     // profile exists
-    let {
+    let { title, company, from, to, current, location, description } = req.body;
+
+    // converting current to boolean
+    if (current === "true") current = true;
+    else current = false;
+
+    req.body.current = current;
+    // validating the data
+    const { error } = validateExperience(req.body);
+    console.log(error);
+    if (error) {
+      const message = error.details[0].message;
+      return res.status(400).json({ error: message });
+    }
+
+    const newExp = {
       title,
       company,
       from,
       to,
       current,
       location,
-      description
-    }=req.body;
-    
-    // converting current to boolean
-    if(current==='true')
-        current=true
-    else
-        current=false
-
-    req.body.current=current;
-    // validating the data
-    const {error}=validateExperience(req.body);
-    console.log(error)
-    if(error){
-      const message = error.details[0].message;
-      return res.status(400).json({ error: message });
-    }
-
-    const newExp={
-       title,
-       company,
-       from,
-       to,
-       current,
-       location,
-       description
-    }
+      description,
+    };
 
     profile.experience.unshift(newExp);
     await profile.save();
-    res.json(profile)
-
+    res.json(profile);
   } catch (err) {
-    console.error(err.message)
+    console.error(err.message);
     res.status(500).send("server error");
   }
-
-})
+});
 
 //   @DELETE api/profile/experience/:exp_id
 //   @desc Deleting experience of the user
 //   @Private
-router.delete('/experience/:exp_id',auth ,async (req,res)=>{
-
+router.delete("/experience/:exp_id", auth, async (req, res) => {
   try {
-    const profile=await Profile.findOne({user:req.user.id});
-    if(!profile){
-      return res.status(400).json({msg:"Please make a profile first"});
+    const profile = await Profile.findOne({ user: req.user.id });
+    if (!profile) {
+      return res.status(400).json({ msg: "Please make a profile first" });
     }
-    const exp_id=req.params.exp_id;
+    const exp_id = req.params.exp_id;
     if (!exp_id.match(/^[0-9a-fA-F]{24}$/)) {
       return res.status(400).json({ msg: "No experience Found!" });
     }
-    profile.experience=profile.experience.filter(item=>item._id!=exp_id)
+    profile.experience = profile.experience.filter(
+      (item) => item._id != exp_id
+    );
+    res.json(profile);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("server error");
+  }
+});
+
+//   @PUT api/profile/education
+//   @desc Adding education of the user
+//   @Private
+
+router.put("/education", auth, async (req, res) => {
+  try {
+    const profile = await Profile.findOne({ user: req.user.id });
+    if (!profile) {
+      // no profile
+      return res.status(400).json({ msg: "First create a profile" });
+    }
+    req.body.current = req.body.current == "true" ? true : false;
+    let {
+      school,
+      degree,
+      fieldofstudy,
+      from,
+      to,
+      current,
+      description,
+    } = req.body;
+
+    const { error } = validateEducation(req.body);
+    if (error) {
+      const message = error.details[0].message;
+      return res.status(400).json({ error: message });
+    }
+
+    // data is valid
+    const newEdu = {
+      school,
+      degree,
+      fieldofstudy,
+      from,
+      to,
+      current,
+      description,
+    };
+
+    profile.education.unshift(newEdu);
+    await Profile.save()
     res.json(profile)
   } catch (err) {
     console.error(err.message);
-    res.status(500).send('server error');
+    return res.status(500).send("server error");
   }
+});
 
-})
 
+//   @DELETE api/profile/education/:edu_id
+//   @desc Deleting education of the user
+//   @Private
+router.delete("/education/:edu_id", auth, async (req, res) => {
+  try {
+    const profile = await Profile.findOne({ user: req.user.id });
+    if (!profile) {
+      return res.status(400).json({ msg: "Please make a profile first" });
+    }
+    const edu_id = req.params.edu_id;
+    if (!edu_id.match(/^[0-9a-fA-F]{24}$/)) {
+      return res.status(400).json({ msg: "No education Found!" });
+    }
+    profile.education = profile.education.filter(
+      (item) => item._id != edu_id
+    );
+    res.json(profile);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("server error");
+  }
+});
 module.exports = router;

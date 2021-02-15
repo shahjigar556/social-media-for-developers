@@ -129,7 +129,7 @@ function validateProfile(user){
 }
 
 function validateExperience(exp){
-    console.log(exp);
+  
     const schema=Joi.object({
         title:Joi.string().required(),
         company:Joi.string().required(),
@@ -142,8 +142,22 @@ function validateExperience(exp){
     console.log(schema.validate(exp))
     return schema.validate(exp)
 }
+
+function validateEducation(edu){
+    const schema=Joi.object({
+        school:Joi.string().required(),
+        degree:Joi.string(),
+        fieldofstudy:Joi.string().required(),
+        from:Joi.string().required(),
+        to:Joi.string(),
+        current:Joi.boolean(),
+        description:Joi.string(),
+    })
+    return schema.validate(edu)
+}
 const Profile=mongoose.model('profile',ProfileSchema);
 
 module.exports.Profile=Profile;
 module.exports.validateProfile=validateProfile;
 module.exports.validateExperience=validateExperience;
+module.exports.validateEducation=validateEducation;
