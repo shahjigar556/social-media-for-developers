@@ -21,7 +21,7 @@ router.post("/", async (req, res) => {
   const { name, email, password } = req.body;
 
   try {
-    console.log(mongoose.connection.readyState);
+    //console.log(mongoose.connection.readyState);
     let user = await Users.findOne({ email });
 
     if (user) {
@@ -38,7 +38,7 @@ router.post("/", async (req, res) => {
       false
     );
 
-    console.log(avatar);
+    //console.log(avatar);
 
     user = new Users({
       name,

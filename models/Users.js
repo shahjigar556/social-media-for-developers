@@ -1,7 +1,7 @@
 const mongoose=require('mongoose')
 const Joi=require('joi');
 
-const userSchema={
+const userSchema=new mongoose.Schema({
     name:{
         type:String,
         required:true,
@@ -21,7 +21,7 @@ const userSchema={
         type:Date,
         default:Date.now
     }
-}
+});
 
 function validateUser(user)
 {
@@ -32,7 +32,7 @@ function validateUser(user)
     })
     return schema.validate(user);
 }
-const Users=mongoose.model('User',userSchema);
+const Users=mongoose.model('user',userSchema);
 
 module.exports.Users=Users;
 module.exports.validateUser=validateUser;

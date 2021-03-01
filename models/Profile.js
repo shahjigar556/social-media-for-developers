@@ -3,7 +3,7 @@ const Joi=require('joi');
 const ProfileSchema=mongoose.Schema({
   user:{
       type:mongoose.Schema.Types.ObjectId,
-      ref:'User'
+      ref:'users'
   },  // linking the user data in profile
   company:{
       type:String
