@@ -10,9 +10,7 @@ const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
     borderBottom:'3px solid #17a2b8',
-    // [theme.breakpoints.down('xs')]: {
-    //   textAlign:'center'
-    // }
+    
   },
   menuButton:{
     marginRight: theme.spacing(2),
@@ -24,8 +22,9 @@ const useStyles = makeStyles((theme) => ({
     color:"#fff",
     textDecoration:'none',
     marginRight:theme.spacing(2),
-    [theme.breakpoints.down('xs')]: {
-      display:'none'
+    [theme.breakpoints.down('xs')]:{
+      paddingBottom:theme.spacing(2),
+      
     }
   },
   AppStyle:{
@@ -33,7 +32,12 @@ const useStyles = makeStyles((theme) => ({
     flesDirection:'row',
     justifyContent:'space-between',
     alignItems:'center',
-    flexWrap:'wrap'
+    flexWrap:'wrap',
+    paddingBottom:theme.spacing(2),
+    [theme.breakpoints.down('xs')]:{
+      display:'block',
+      textAlign:'center'
+    }
   }
   
 }));
@@ -46,7 +50,7 @@ function Navbar() {
      <AppBar position="static" style={{background:"#343a40",opacity:'0.9'}}>
 
         <Toolbar className={classes.AppStyle}>
-          <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
+          <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu" style={{display:'inline'}}>
           <i className="fas fa-code"></i>
           </IconButton>
           <Typography variant="h6" className={classes.title}>
