@@ -5,7 +5,8 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import {Link} from 'react-router-dom';
-
+import {useSelector} from 'react-redux';
+import Links from './Links'
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -45,6 +46,7 @@ const useStyles = makeStyles((theme) => ({
 
 function Navbar() {
   const classes=useStyles();
+  const user=useSelector(state=>state.auth);
   return (
     <div className={classes.root}>
      <AppBar position="static" style={{background:"#343a40",opacity:'0.9'}}>
@@ -56,15 +58,7 @@ function Navbar() {
           <Typography variant="h6" className={classes.title}>
             DevConnector
           </Typography>
-          <Link to='/login' className={classes.links}>
-             Login
-          </Link>
-          <Link to='/register' className={classes.links}>
-              Signup
-          </Link>          
-          <Link to='/developers' className={classes.links}>
-              Developers
-          </Link>          
+          <Links />   
 
         </Toolbar>
       </AppBar>
