@@ -2,8 +2,10 @@ import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import {useState} from 'react';
 import Button from "@material-ui/core/Button";
-import axios from 'axios';
-
+import {useDispatch,useSelector} from 'react-redux';
+import {setAlert,removeAlert} from '../../Redux/alert/actions';
+import {register} from '../../Redux/auth/actions';
+import {Redirect} from 'react-router-dom';
 const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
@@ -29,6 +31,10 @@ const useStyles = makeStyles((theme) => ({
 }));
 function Register() {
   const classes = useStyles();
+  const dispatch = useDispatch()
+  const alerts=useSelector(state=>state.alert)
+  const user=useSelector(state=>state.auth);
+  const {isAuthenticated}=user;
   const [formData,setFormData]=useState({
     name:'',
     email:'',
@@ -36,35 +42,38 @@ function Register() {
     confirmPassword:''
   })
 
-  const handleChange=(e)=>{
+  const handleChange=async (e)=>{
     setFormData({...formData,[e.target.name]:e.target.value})
   }
 
-  const handleSubmit=async ()=>{
-    
+  const handleSubmit=()=>{
+   
+    const msg="Password does not match"
+    const alertType="danger";
     if(formData.password!==formData.confirmPassword){
       console.log("Password does not match")
+      dispatch(setAlert(msg,alertType));
+    }
+    else{
+      console.log("Password match");
+      // Remove all Password not match alerts
+      let ids=[];
+      alerts.map(a=>{
+        if(a.msg==msg && a.alertType==alertType){    
+            ids.push(a.id)
+        }
+      })
+      ids.map(id=>{
+        dispatch(removeAlert(id))
+      })
+      const {name,email,password}=formData;
+      dispatch(register({name,email,password}));
     }
     console.log(formData)
-    const {name,email,password}=formData;
-    let userObj={
-      name,
-      email,
-      password
-    }
-   userObj=JSON.stringify(userObj)   // converting to JSON
-   const config={
-     headers:{
-       "content-type":'application/json'
-     }
-   }
+  }
 
-   try {
-    const resp=await axios.post('/api/users',userObj,config)
-    console.log(resp.data)
-   } catch (err) {
-     console.log(err.response.data)
-   }
+  if(isAuthenticated){
+    return <Redirect to='/dashboard'/>
   }
   return (
     <React.Fragment>

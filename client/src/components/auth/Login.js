@@ -2,7 +2,10 @@ import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import {useState} from 'react';
 import Button from "@material-ui/core/Button";
-import axios from 'axios';
+import {useDispatch,useSelector} from 'react-redux';
+import {login} from '../../Redux/auth/actions';
+import {Redirect} from 'react-router-dom';
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -27,8 +30,11 @@ const useStyles = makeStyles((theme) => ({
   },
  
 }));
-function Register() {
+function Login() {
   const classes = useStyles();
+  const dispatch = useDispatch();
+  const user=useSelector(state=>state.auth)
+  const {isAuthenticated}=user;
   const [formData,setFormData]=useState({
     name:'',
     email:'',
@@ -41,25 +47,14 @@ function Register() {
 
   const handleSubmit=async ()=>{
     console.log(formData)
-    const {email,password,name}=formData;
-    let userObj={
-      name,
-      email,
-      password
-    }
-   userObj=JSON.stringify(userObj)   // converting to JSON
-   const config={
-     headers:{
-       "content-type":'application/json'
-     }
-   }
+    const {name,email,password}=formData;
+    dispatch(login(formData));
+  }
 
-   try {
-    const resp=await axios.post('/api/auth',userObj,config)
-    console.log(resp.data)
-   } catch (err) {
-     console.log(err.response.data)
-   }
+  if(isAuthenticated){
+    return(
+      <Redirect to='/dashboard'/>
+    )
   }
   return (
     <React.Fragment>
@@ -79,6 +74,7 @@ function Register() {
             placeholder="Name"
             className={classes.inputs}
             onChange={(e)=>handleChange(e)}
+            required
           />
           <input
             type="text"
@@ -86,6 +82,7 @@ function Register() {
             placeholder="Email"
             className={classes.inputs}
             onChange={(e)=>handleChange(e)}
+            required
           />
 
           <input
@@ -94,6 +91,7 @@ function Register() {
             placeholder="Password"
             className={classes.inputs}
             onChange={(e)=>handleChange(e)}
+            required
           />        
         </form>
         <Button onClick={handleSubmit} color="primary" variant="contained">Login</Button>
@@ -102,4 +100,4 @@ function Register() {
   );
 }
 
-export default Register;
+export default Login;

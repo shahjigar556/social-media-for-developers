@@ -13,8 +13,6 @@ const reducer=(state=initialState,action)=>{
         break;
 
       case REMOVE_ALERT:
-          console.log(state)
-          console.log("Remove alert")
           return state.filter(alert=>alert.id!=action.payload.id)
      default:
          return state;
