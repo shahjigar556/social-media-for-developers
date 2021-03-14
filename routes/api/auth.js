@@ -4,16 +4,33 @@ const {Users,validateUser} =require('../../models/Users')
 const bcrypt=require('bcrypt')
 const config=require('config')
 const jwt=require('jsonwebtoken');
+const auth=require('../../middleware/auth');
+
 // @GET api/auth
+// @desc  authenticating user
+// @Public
+router.get('/',auth,async (req,res)=>{
+    try {
+        const user=await Users.findById(req.user.id).select('-password');
+        if(!user)
+            res.status(400).json({msg:"User is Not Authenticated"});
+        res.json(user);
+    } catch (err) {
+        console.error(err);
+    }
+})
+
+// @POST api/auth
 // @desc  authenticating user
 // @Public
 
 router.post('/',async (req,res)=>{
-    const {error}=validateUser(req.body)
-    if(error){
-        const message=error.details[0].message;
-        return res.status(400).json({error:message})
-    }
+    console.log(req.body);
+    // const {error}=validateUser(req.body)
+    // if(error){
+    //     const message=error.details[0].message;
+    //     return res.status(400).json({error:message})
+    // }
 
     const {email,password}=req.body;
     
@@ -21,7 +38,8 @@ router.post('/',async (req,res)=>{
     
     try{
         let user=await Users.findOne({email})
-        if (!user){
+        if (!user){ 
+            console.log("here");
             return res.status(401).json({"msg":"Invalid credentials"})
         }
 
@@ -29,6 +47,7 @@ router.post('/',async (req,res)=>{
    
     const match = await bcrypt.compare(password, user.password)
     if(!match){
+        console.log("here......");
         return res.status(401).json({"msg":"Invalid credentials"})
     }
 
