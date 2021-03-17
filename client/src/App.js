@@ -10,7 +10,13 @@ import {loadUser} from './Redux/auth/actions';
 import setAuthToken from './utils/setAuthToken';
 import {useEffect} from 'react';
 import {useDispatch} from 'react-redux';
-import DashBoard from './components/layout/DashBoard';
+import DashBoard from './components/dashboard/Dashboard';
+import PrivateRoute from './components/routing/PrivateRoute'
+import CreateProfile from './components/dashboard/profile/CreateProfile';
+import EditProfile from './components/dashboard/profile/EditProfile';
+import AddExperience from './components/dashboard/profile/AddExperience';
+import AddEducation from './components/dashboard/profile/AddEducation';
+
 
 if(localStorage.token)
      setAuthToken(localStorage.token)
@@ -28,9 +34,13 @@ function App() {
           <Alert />
           <Route exact path='/' component={Landing} />
           <Switch>
-            <Route exact path='/register' component={Register} />
-            <Route excat path='/login' component={Login} />
-            <Route excat path='/dashboard' component={DashBoard} />
+              <Route exact path='/register' component={Register} />
+              <Route excat path='/login' component={Login} />
+              <PrivateRoute excat path='/dashboard' component={DashBoard} />
+              <PrivateRoute exact path='/create-profile' component={CreateProfile} />
+              <PrivateRoute exact path='/edit-profile' component={EditProfile} />
+              <PrivateRoute exact path='/experience' component={AddExperience} />
+              <PrivateRoute exact path='/education' component={AddEducation} />
           </Switch>
         </React.Fragment>
   )

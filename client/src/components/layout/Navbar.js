@@ -11,7 +11,7 @@ const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
     borderBottom:'3px solid #17a2b8',
-    
+
   },
   menuButton:{
     marginRight: theme.spacing(2),
@@ -52,9 +52,11 @@ function Navbar() {
      <AppBar position="static" style={{background:"#343a40",opacity:'0.9'}}>
 
         <Toolbar className={classes.AppStyle}>
-          <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu" style={{display:'inline'}}>
-          <i className="fas fa-code"></i>
-          </IconButton>
+          <Link to='/' style={{textDecoration:'none',color:'white'}}>
+            <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu" style={{display:'inline'}}>
+              <i className="fas fa-code"></i>
+            </IconButton>   
+          </Link>
           <Typography variant="h6" className={classes.title}>
             DevConnector
           </Typography>

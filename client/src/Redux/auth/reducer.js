@@ -13,7 +13,6 @@ const reducer=(state=initialState,action)=>{
         case LOGIN_SUCCESS:
             localStorage.setItem('token',payload.token);
             setAuthToken(localStorage.token);
-            console.log("user registered");
             return {
                 ...state,
                 token:payload.token,
@@ -25,7 +24,14 @@ const reducer=(state=initialState,action)=>{
         case LOGIN_FAILURE:
         case LOGOUT_USER:
             localStorage.removeItem('token');
-            console.log(localStorage.getItem('token'));
+            return {
+                ...state,
+                isAuthenticated:false,
+                token:null,
+                user:null
+            }
+        case AUTH_ERR:
+            localStorage.removeItem('token');
             return {
                 ...state,
                 isAuthenticated:false,
@@ -39,16 +45,7 @@ const reducer=(state=initialState,action)=>{
                 user:payload,
                 isAuthenticated:true,
                 loading:false
-            }
-   
-        case AUTH_ERR:
-            localStorage.removeItem('token');
-            return {
-                ...state,
-                isAuthenticated:false,
-                user:null
-            }
-   
+            }   
         default:
             return state;
     }

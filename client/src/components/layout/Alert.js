@@ -1,5 +1,5 @@
 import React from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector} from "react-redux";
 
 function Alert(props) {
   const alerts = useSelector((state) => state.alert);

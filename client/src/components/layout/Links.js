@@ -4,6 +4,7 @@ import {useDispatch,useSelector} from 'react-redux';
 import Button from '@material-ui/core/Button';
 import {Link} from 'react-router-dom';
 import {logout} from '../../Redux/auth/actions';
+import { Typography } from '@material-ui/core';
 const useStyles = makeStyles((theme) => ({    
     links:{
       color:"#fff",
@@ -21,13 +22,15 @@ export default function Links() {
     const {isAuthenticated}=user;
 
     const handleClick=()=>{
-       alert(`Are You sure You want to Logout:${user.user.name}`); 
+       alert(`Are You sure You want to Logout: ${user.user.name}`); 
        dispatch(logout());
     }
 
     if(isAuthenticated){
         return(
-           <Button onClick={handleClick} variant="contained" color="primary">Logout</Button> 
+          <React.Fragment>
+              <Button onClick={handleClick} variant="contained" color="primary">Logout</Button> 
+          </React.Fragment>
         )
     }
 

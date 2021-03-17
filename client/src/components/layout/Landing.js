@@ -1,9 +1,11 @@
 import { makeStyles } from '@material-ui/core'
-import {Link} from 'react-router-dom'
+import {Link, Redirect} from 'react-router-dom'
 import React from 'react'
 import Button from '@material-ui/core/Button';
 import Background from '../../img/showcase.jpg'
 import Typography from '@material-ui/core/Typography';
+import {useSelector} from 'react-redux';
+
 const useStyles=makeStyles(theme=>({
   root:{
     color:'#fff'
@@ -30,7 +32,13 @@ function Landing() {
     alignItems:'center',
     fontWeight:'bold'
   }
-  
+  const user=useSelector(state=>state.auth);
+  const {isAuthenticated}=user;
+  if(isAuthenticated){
+    return (
+      <Redirect to='/dashboard' />
+    )
+  }
     return (
      <div style={LandingStyle}>
        <h1>Developer Connector</h1>

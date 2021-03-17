@@ -47,25 +47,11 @@ function Register() {
   }
 
   const handleSubmit=()=>{
-   
-    const msg="Password does not match"
-    const alertType="danger";
+
     if(formData.password!==formData.confirmPassword){
-      console.log("Password does not match")
-      dispatch(setAlert(msg,alertType));
+      dispatch(setAlert("Password does not match"));
     }
     else{
-      console.log("Password match");
-      // Remove all Password not match alerts
-      let ids=[];
-      alerts.map(a=>{
-        if(a.msg==msg && a.alertType==alertType){    
-            ids.push(a.id)
-        }
-      })
-      ids.map(id=>{
-        dispatch(removeAlert(id))
-      })
       const {name,email,password}=formData;
       dispatch(register({name,email,password}));
     }

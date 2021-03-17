@@ -2,6 +2,8 @@ import {REGISTER_SUCCESS,REGISTER_FAIL,USER_LOADED,AUTH_ERR,LOGIN_SUCCESS,LOGIN_
 
 import axios from 'axios';
 import setAuthToken from '../../utils/setAuthToken';
+import { CLEAR_PROFILE } from '../profile/actionTypes';
+import {setAlert} from '../alert/actions';
 
 // load user
 export const loadUser=()=>async dispatch=>{
@@ -36,13 +38,13 @@ export const register=(userObj)=>async (dispatch)=>{
            payload:resp.data
        })
        setAuthToken(localStorage.getItem('token'));
-       alert('Account Successfully Created')
+       dispatch(setAlert('Account Successfully Created'))
        dispatch(loadUser());
     } catch (err) {
-        alert('User Already Registered')
          dispatch({
              type:REGISTER_FAIL
          })
+        dispatch(setAlert('User Already Registered'))
     }
 }
 
@@ -62,18 +64,22 @@ try {
       type:LOGIN_SUCCESS,
       payload:resp.data
   })
-
+  dispatch(setAlert('Successfull Login'))
   dispatch(loadUser());
 } catch (err) {
-    console.error(err.message);
     dispatch({
         type:LOGIN_FAILURE
     })
+    dispatch(setAlert('Invalid Credentials'))
+
 }
 }
 
 //logout user
 export const logout=()=>dispatch=>{
+    dispatch({
+        type:CLEAR_PROFILE
+    })
     dispatch({
         type:LOGOUT_USER
     })
