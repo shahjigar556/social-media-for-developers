@@ -8,6 +8,7 @@ const {
   validateEducation,
 } = require("../../models/Profile");
 const { Users } = require("../../models/Users");
+const {Post}=require('../../models/Posts')
 
 // @GET api/profile/me
 // @desc  accesing the profile of the user
@@ -18,7 +19,7 @@ router.get("/me", auth, async (req, res) => {
   try {
     const profile = await Profile.findOne({
       user: req.user.id,
-    }).populate("user", ["name", "avatar"]);
+    }).populate("users", ["name", "avatar"]);
 
     if (!profile) {
       return res.status(400).json({ msg: "No Profile Present" });
@@ -36,12 +37,12 @@ router.get("/me", auth, async (req, res) => {
 
 router.post("/", auth, async (req, res) => {
   //validate data
-  const { error } = validateProfile(req.body);
-  console.log(error);
-  if (error) {
-    const message = error.details[0].message;
-    return res.status(400).json(message);
-  }
+  // const { error } = validateProfile(req.body);
+  // console.log(error);
+  // if (error) {
+  //   const message = error.details[0].message;
+  //   return res.status(400).json(message);
+  // }
 
   const {
     company,
@@ -76,6 +77,8 @@ router.post("/", auth, async (req, res) => {
   if (twitter) ProfileFields.social.twitter = twitter;
   if (facebook) ProfileFields.social.facebook = facebook;
   if (linkedin) ProfileFields.social.linkedin = linkedin;
+  if (instagram) ProfileFields.social.instagram = instagram;
+
 
   try {
     let profile = await Profile.findOne({ user: req.user.id });
@@ -139,14 +142,15 @@ router.get("/user/:user_id", async (req, res) => {
 });
 
 //   @DELETE api/profile
-//   @desc Deleting profile,user
+//   @desc Deleting profile,user,post
 //   @Private
 
 router.delete("/", auth, async (req, res) => {
   try {
     const id = req.user.id;
     await Profile.findOneAndRemove({ user: id });
-    await Users.findOneAndRemove({ _id: id });
+    await Users.findOneAndRemove({ _id: id }); 
+    await Post.deleteMany({user:req.user.id});
     res.json({ msg: "User deleted" });
   } catch (error) {
     console.log(error.message);
@@ -175,19 +179,19 @@ router.put("/experience", auth, async (req, res) => {
 
     req.body.current = current;
     // validating the data
-    const { error } = validateExperience(req.body);
-    console.log(error);
-    if (error) {
-      const message = error.details[0].message;
-      return res.status(400).json({ error: message });
-    }
+    // const { error } = validateExperience(req.body);
+    // console.log(error);
+    // if (error) {
+    //   const message = error.details[0].message;
+    //   return res.status(400).json({ error: message });
+    // }
 
     const newExp = {
       title,
       company,
       from,
       to,
-      current,
+      current, 
       location,
       description,
     };
@@ -217,6 +221,7 @@ router.delete("/experience/:exp_id", auth, async (req, res) => {
     profile.experience = profile.experience.filter(
       (item) => item._id != exp_id
     );
+    await profile.save();
     res.json(profile);
   } catch (err) {
     console.error(err.message);
@@ -246,11 +251,11 @@ router.put("/education", auth, async (req, res) => {
       description,
     } = req.body;
 
-    const { error } = validateEducation(req.body);
-    if (error) {
-      const message = error.details[0].message;
-      return res.status(400).json({ error: message });
-    }
+    // const { error } = validateEducation(req.body);
+    // if (error) {
+    //   const message = error.details[0].message;
+    //   return res.status(400).json({ error: message });
+    // }
 
     // data is valid
     const newEdu = {
@@ -264,7 +269,7 @@ router.put("/education", auth, async (req, res) => {
     };
 
     profile.education.unshift(newEdu);
-    await Profile.save()
+    await profile.save()
     res.json(profile)
   } catch (err) {
     console.error(err.message);
@@ -289,6 +294,7 @@ router.delete("/education/:edu_id", auth, async (req, res) => {
     profile.education = profile.education.filter(
       (item) => item._id != edu_id
     );
+    await profile.save();
     res.json(profile);
   } catch (err) {
     console.error(err.message);

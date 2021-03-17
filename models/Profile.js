@@ -119,11 +119,11 @@ function validateProfile(user){
         website:Joi.string(),
         bio:Joi.string(),
         githubusername:Joi.string(),
-        youtube:Joi.string(),
-        twitter:Joi.string(),
-        facebook:Joi.string(),
-        linkedin:Joi.string(),
-        instagram:Joi.string(),
+        youtube:Joi.string().allow(' '),
+        twitter:Joi.string().allow(' '),
+        facebook:Joi.string().allow(' '),
+        linkedin:Joi.string().allow(' '),
+        instagram:Joi.string().allow(' '),
     })
     return schema.validate(user);
 }
@@ -134,7 +134,7 @@ function validateExperience(exp){
         title:Joi.string().required(),
         company:Joi.string().required(),
         from :Joi.string().required(),
-        to:Joi.string(),
+        to:Joi.string().allow(''),
         current:Joi.boolean(),
         location:Joi.string(),
         description:Joi.string()
