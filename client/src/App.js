@@ -16,7 +16,8 @@ import CreateProfile from './components/dashboard/profile/CreateProfile';
 import EditProfile from './components/dashboard/profile/EditProfile';
 import AddExperience from './components/dashboard/profile/AddExperience';
 import AddEducation from './components/dashboard/profile/AddEducation';
-
+import DevelopersProfile from './components/dashboard/profiles/DevelopersProfile';
+import IndividualProfile from './components/dashboard/profiles/IndividualProfile';
 
 if(localStorage.token)
      setAuthToken(localStorage.token)
@@ -36,6 +37,8 @@ function App() {
           <Switch>
               <Route exact path='/register' component={Register} />
               <Route excat path='/login' component={Login} />
+              <Route excat path='/developers' component={DevelopersProfile} />
+              <Route excat path='/profile/:id' component={IndividualProfile} />
               <PrivateRoute excat path='/dashboard' component={DashBoard} />
               <PrivateRoute exact path='/create-profile' component={CreateProfile} />
               <PrivateRoute exact path='/edit-profile' component={EditProfile} />

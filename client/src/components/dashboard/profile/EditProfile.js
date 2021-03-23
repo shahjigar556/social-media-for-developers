@@ -85,13 +85,16 @@ function EditProfile({history}) {
             status,
             skills,
             githubusername,
-            bio,
+            bio
+          } = profileData.profile;
+          
+          let {
             twitter,
             facebook,
             linkedin,
             youtube,
             instagram
-          } = profileData.profile;
+          }=profileData.profile.social
 
           skills=skills.join(',')
           const data={
@@ -135,7 +138,7 @@ function EditProfile({history}) {
                     Add social Media Links
                </Button>
                {btn && <Fragment>
-                    <input name="twitter" className={classes.inputs} onChange={(e)=>handleChange(e)} value={twitter}  placeholder="Company" />
+                    <input name="twitter" className={classes.inputs} onChange={(e)=>handleChange(e)} value={twitter}  placeholder="twitter" />
                     <input name="facebook" className={classes.inputs} onChange={(e)=>handleChange(e)} value={facebook}   placeholder="facebook"/>
                     <input name="linkedin" className={classes.inputs} onChange={(e)=>handleChange(e)} value={linkedin}  placeholder="linkedin"/>
                     <input name="youtube" className={classes.inputs} onChange={(e)=>handleChange(e)} value={youtube}  placeholder="youtube"/>   

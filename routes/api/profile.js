@@ -109,7 +109,7 @@ router.post("/", auth, async (req, res) => {
 
 router.get("/", async (req, res) => {
   try {
-    const profiles = await Profile.find().populate("user", ["name", "avatar"]);
+    const profiles = await Profile.find().populate("users");
     if (!profiles) {
       return res.status(400).json({ msg: "No profiles available" });
     }
@@ -121,7 +121,7 @@ router.get("/", async (req, res) => {
 });
 
 //   @GET api/profile/user/:user_id
-//   @desc Getting all the profiles
+//   @desc Getting Profile of Particular user
 //   @Public
 
 router.get("/user/:user_id", async (req, res) => {

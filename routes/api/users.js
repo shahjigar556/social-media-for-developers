@@ -6,7 +6,7 @@ const { Users, validateUser } = require("../../models/Users");
 const mongoose = require("mongoose");
 const jwt = require("jsonwebtoken");
 const config = require("config");
-
+const auth =require('../../middleware/auth');
 // @route POST api/users
 // @desc Register user
 // @public
@@ -62,5 +62,30 @@ router.post("/", async (req, res) => {
     return res.status(500).send("server error");
   }
 });
+
+// @route GET api/users/:userId
+// @desc Get info about user
+// @private
+
+router.get('/:userId',auth,async (req,res)=>{
+   try {
+     const userId=req.params.userId;
+     let user=await Users.findById(userId);
+     if(!user){
+       return res.status(400).json({msg:'User Not found'});
+     }
+     const {name,email,avatar}=user;
+     user={
+       name,
+       email,
+       avatar
+     }
+   
+     res.json(user);
+     
+   } catch (err) {
+     res.status(500).send('Internal server error')
+   }
+})
 
 module.exports = router;

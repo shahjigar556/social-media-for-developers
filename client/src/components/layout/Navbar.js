@@ -57,7 +57,7 @@ function Navbar() {
               <i className="fas fa-code"></i>
             </IconButton>   
           </Link>
-          <Typography variant="h6" className={classes.title}>
+          <Typography variant="h4" className={classes.title}>
             DevConnector
           </Typography>
           <Links />   
