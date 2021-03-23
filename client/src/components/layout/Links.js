@@ -30,6 +30,9 @@ export default function Links() {
         return(
           <React.Fragment>
               <Button onClick={handleClick} variant="contained" color="primary">Logout</Button> 
+              <Link to='/developers' className={classes.links} style={{marginLeft:'10px'}}>
+                   Developers
+              </Link>   
           </React.Fragment>
         )
     }
