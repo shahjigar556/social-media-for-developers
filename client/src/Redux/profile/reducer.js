@@ -1,11 +1,13 @@
-import { CLEAR_PROFILE, GET_PROFILE,PROFILE_ERR,CREATE_PROFILE,UPDATE_PROFILE, DELETE_ACCOUNT} from "./actionTypes";
+import { CLEAR_PROFILE, GET_PROFILE,PROFILE_ERR,CREATE_PROFILE,UPDATE_PROFILE, DELETE_ACCOUNT,GET_PROFILES, GET_VISITING_PROFILE, GET_VISITING_USER, CLEAR_VISITING_USER,CLEAR_VISITING_PROFILE} from "./actionTypes";
 
 const initialState={
     profile:null,
     profiles:[],
     loading:true,
     repos:[],
-    errors:{}
+    errors:{},
+    visitingProfile:null,
+    visitingUser:null
 }
 
 const reducer=(state=initialState,action)=>{
@@ -18,17 +20,53 @@ const reducer=(state=initialState,action)=>{
                    profile:payload,
                    loading:false,
                }
+
+           case GET_PROFILES:
+               return {
+                   ...state,
+                   profiles:payload,
+                   loading:false
+               }
+
+           case GET_VISITING_PROFILE:
+                return {
+                    ...state,
+                    visitingProfile:payload,
+                    loading:false
+                }
+            case CLEAR_VISITING_PROFILE:
+                return {
+                    ...state,
+                    laoding:false,
+                    visitingProfile:null
+                }
+            case GET_VISITING_USER:
+                return {
+                    ...state,
+                    visitingUser:payload,
+                    loading:false
+                }
+
+            case CLEAR_VISITING_USER:
+                return {
+                    ...state,
+                    visitingUser:null,
+                    loading:false
+                }
            case CLEAR_PROFILE:
            case DELETE_ACCOUNT:
                return {
                    ...state,
                    profile:null,
+                   visitingProfile:null,
+                   visitingUser:null,
                    loading:false
                }
            case PROFILE_ERR:
                return {
                    ...state,
                    profile:null,
+                   visitingProfile:null,
                    loading:false
                }
 
