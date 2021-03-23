@@ -42,7 +42,7 @@ function Landing() {
     return (
      <div style={LandingStyle}>
        <h1>Developer Connector</h1>
-       <Typography variant="h6" style={{fontWeight:'bold'}}>
+       <Typography variant="h6" style={{fontWeight:'bold',textAlign:'center'}}>
           Create a developer profile/portfolio,share posts and get help from other developers
        </Typography>
        <div>

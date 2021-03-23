@@ -93,7 +93,7 @@ function CreateProfile({history}) {
                     Add social Media Links
                </Button>
                {btn && <Fragment>
-                    <input name="twitter" className={classes.inputs} onChange={(e)=>handleChange(e)} value={twitter}  placeholder="Company" />
+                    <input name="twitter" className={classes.inputs} onChange={(e)=>handleChange(e)} value={twitter}  placeholder="twitter" />
                     <input name="facebook" className={classes.inputs} onChange={(e)=>handleChange(e)} value={facebook}   placeholder="facebook"/>
                     <input name="linkedin" className={classes.inputs} onChange={(e)=>handleChange(e)} value={linkedin}  placeholder="linkedin"/>
                     <input name="youtube" className={classes.inputs} onChange={(e)=>handleChange(e)} value={youtube}  placeholder="youtube"/>   

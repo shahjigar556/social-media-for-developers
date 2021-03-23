@@ -109,7 +109,7 @@ const Profile=({name})=>{
                 </div>
 
                 <div>
-                   <Button onClick={()=>handleClick()} variant="contained" color="secondary" style={{marginLeft:'40px'}}>
+                   <Button onClick={()=>handleClick()} variant="contained" color="secondary" style={{marginLeft:'40px',marginTop:'10px'}}>
                             Delete Account
                    </Button>
                 </div>
