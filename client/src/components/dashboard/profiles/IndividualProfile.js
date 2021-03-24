@@ -10,6 +10,7 @@ import Bio from './Bio';
 import Experience from './Experience';
 import Education from './Education';
 import Grid from '@material-ui/core/Grid'
+import Github from './Github';
 
 const useStyles = makeStyles((theme) => ({
    links:{
@@ -41,6 +42,7 @@ function IndividualProfile(props) {
          dispatch(clearVisitingProfile());
     }
     
+    
     return (
         <div className={classes.root}>
             <Link to='/developers' className={classes.links}>
@@ -51,10 +53,9 @@ function IndividualProfile(props) {
            
             <About user={user} profile={profile}/>
             {profile.skills && <Bio user={user} profile={profile} />} 
-            <div style={{display:'flex',flexDirection:'row',marginTop:'10px'}}>
-                    {profile.experience && <Experience experience={profile.experience}/>}
-                    {profile.education && <Education education={profile.education}/>}        
-            </div>       
+            {profile.experience && <Experience experience={profile.experience}/>}
+            {profile.education && <Education education={profile.education}/>}  
+            {profile.githubusername && <Github username={profile.githubusername}/>}    
                
            
         </div>

@@ -1,28 +1,52 @@
 import React from 'react'
 import Grid from '@material-ui/core/Grid'
 import {makeStyles} from '@material-ui/core/styles'
+import Moment from 'react-moment'
 
 const useStyles = makeStyles((theme) => ({
     links:{
         textDecoration:'none'
     },
     root:{
-        marginLeft:'10%',
-        alignSelf:'flex-start',
-        border:'1px solid black'
+        backgroundColor:'#E0E0E0',
+        width:'80%',
+        marginTop:'10px'
+    },
+    heading:{
+        color:'#17a2b8',
+        textAlign:'center'
+    },
+    subHeading:{
+        color:'black',
+        fontWeight:'bold',
+        marginTop:'-5px'
+    },
+    bold:{
+        fontWeight:'bold'
     }
   }));
 function Experience({experience}) {
     const classes=useStyles();
-    console.log(experience)
-    
+    if (experience.length==0)
+        return null;
     return (
-        <Grid item xs={12} md={6} className={classes.root}>
-             {experience.map(exp=><div>
-                 <h4>{exp.company}</h4>
-                 <h4>{exp.title}</h4>
-             </div>)}
-        </Grid>
+        <div className={classes.root}>
+            <h2 className={classes.heading}>Experience</h2>
+            <Grid container spacing={2} style={{paddingLeft:'10px'}}>           
+                      {experience.map(exp=>(
+                          <Grid item xs={12} sm={6}>
+                                <h3 className={classes.subHeading}>{exp.company}</h3>
+                                <p className={classes.bold}><Moment format="YYYY/MM/DD">{exp.from}</Moment>
+                                -
+                                {exp.to==''?' Now':<Moment format="YYYY/MM/DD">{exp.to}</Moment>}
+                                </p>
+                                <p className={classes.bold}>Position : {exp.title}</p>
+                                {exp.description && <p>{exp.description}</p>}
+                          </Grid>
+                      ))}
+            </Grid>
+        </div>
+        
     )
 }
 

@@ -9,8 +9,12 @@ import Grid from '@material-ui/core/Grid'
 function DevelopersProfile() {
     const dispatch=useDispatch()
     const profileData=useSelector(state=>state.profile);
-    const {profiles}=profileData;
+    let {profiles}=profileData;
     const {loading}=profileData;
+    const {profile}=profileData;
+
+    profiles=profiles.filter(p=>p.user!=profile.user)
+
     useEffect(()=>{
        dispatch(getProfiles());
     },[])
