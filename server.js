@@ -7,6 +7,7 @@ const app = express();
 // Init middleware
 app.use(express.json({ extended: false }));
 
+
 // connecting to MongoDb database
 mongoose
   .connect(config.get("mongoURI"), {
