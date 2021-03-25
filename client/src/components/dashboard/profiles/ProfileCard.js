@@ -10,6 +10,7 @@ import Card from '@material-ui/core/Card';
 import CardMedia from '@material-ui/core/CardMedia';
 import CardHeader from '@material-ui/core/CardHeader'
 import { Typography } from '@material-ui/core';
+import Button from '@material-ui/core/Button';
 
 const useStyles = makeStyles((theme) => ({
      root:{
@@ -38,7 +39,8 @@ const useStyles = makeStyles((theme) => ({
      },
      linkStyle:{
          textDecoration:'none',
-         color:"green"
+         color:"green",
+         marginBottom:'10px'
      },
      subheading:{
          fontsize:'5px'
@@ -69,7 +71,9 @@ function ProfileCard({profile}) {
                         {profile.status} {profile.company?`at ${profile.company}`:' '}
                     </h4>
                     <Link to={url} className={classes.linkStyle}>
-                            View Complete Profile
+                            <Button variant="contained" color="secondary">
+                                  View Profile
+                            </Button>
                     </Link>
              </Card>
         </Grid>

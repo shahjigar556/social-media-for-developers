@@ -15,7 +15,8 @@ import Github from './Github';
 const useStyles = makeStyles((theme) => ({
    links:{
        textDecoration:'none',
-       alignSelf:'flexStart'
+       alignSelf:'flex-start',
+       marginLeft:'10%'
    },
    root:{
        display:'flex',
@@ -46,7 +47,7 @@ function IndividualProfile(props) {
     return (
         <div className={classes.root}>
             <Link to='/developers' className={classes.links}>
-               <Button variant="contained" onClick={handleClick} style={{marginLeft:'10%',marginTop:'20px',marginBottom:'20px'}}>
+               <Button variant="contained" color="secondary" onClick={handleClick} style={{marginRight:'-80%',marginTop:'20px',marginBottom:'20px'}}>
                     Back To Profiles
                </Button>
             </Link>
