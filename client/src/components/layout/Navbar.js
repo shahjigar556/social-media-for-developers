@@ -58,7 +58,7 @@ function Navbar() {
             </IconButton>   
           </Link>
           <Typography variant="h4" className={classes.title}>
-            DevConnector
+            CodeBook
           </Typography>
           <Links />   
 
