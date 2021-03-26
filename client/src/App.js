@@ -18,6 +18,8 @@ import AddExperience from './components/dashboard/profile/AddExperience';
 import AddEducation from './components/dashboard/profile/AddEducation';
 import DevelopersProfile from './components/dashboard/profiles/DevelopersProfile';
 import IndividualProfile from './components/dashboard/profiles/IndividualProfile';
+import Post from './components/post/Post';
+import SinglePost from './components/post/post/SinglePost';
 
 if(localStorage.token)
      setAuthToken(localStorage.token)
@@ -44,6 +46,8 @@ function App() {
               <PrivateRoute exact path='/edit-profile' component={EditProfile} />
               <PrivateRoute exact path='/experience' component={AddExperience} />
               <PrivateRoute exact path='/education' component={AddEducation} />
+              <PrivateRoute exact path='/post' component={Post} />
+              <PrivateRoute exact path='/post/:id' component={SinglePost} />
           </Switch>
         </React.Fragment>
   )

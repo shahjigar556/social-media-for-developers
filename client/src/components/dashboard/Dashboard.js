@@ -88,12 +88,7 @@ const Profile=({name,avatar})=>{
              <h1 className={classes.heading}>DashBoard</h1>
              <h3 className={classes.subHeading}>Welcome {name}</h3>
              <img className={classes.img} src={avatar} alt="profile-image" />
-             <div>
-                {/* <a href="http://en.gravatar.com/" target="_blank" style={{textDecoration:'none'}}>
-                    <Button color="secondary" variant="contained" style={{marginLeft:'40px'}}>
-                        Upload Image
-                    </Button>
-                </a> */}
+             <div>          
                 <Image />
              </div>
                 <div className={classes.root}>
@@ -143,13 +138,8 @@ export default function Dashboard() {
          dispatch(getProfile());
     },[]);
 
-    if(loading){
-        return (
-            <Spinner />
-        )
-    }
     return (
-        <React.Fragment>
+        loading || user==null?<Spinner />:<React.Fragment>
             {profile!=null?<Profile name={user.user.name} avatar={user.user.avatar}/>:<NoProfile  name={user.user.name}/>}
         </React.Fragment>
     )

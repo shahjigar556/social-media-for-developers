@@ -1,7 +1,7 @@
 import React from 'react'
 import {useEffect} from 'react';
 import {useDispatch,useSelector} from 'react-redux';
-import {getProfiles} from '../../../Redux/profile/action'
+import {getProfiles,getProfile} from '../../../Redux/profile/action'
 import ProfileCard from './ProfileCard';
 import Spinner from '../../Spinner';
 import Grid from '@material-ui/core/Grid'
@@ -12,20 +12,18 @@ function DevelopersProfile() {
     let {profiles}=profileData;
     const {loading}=profileData;
     const {profile}=profileData;
-
-    profiles=profiles.filter(p=>p.user!=profile.user)
+    
+    if(profile)
+       profiles=profiles.filter(p=>p.user!=profile.user)
+    else 
+       dispatch(getProfile());
 
     useEffect(()=>{
        dispatch(getProfiles());
     },[])
     
-    if(loading){
-        return (
-            <Spinner />
-        )
-    }
     return (
-        <React.Fragment>
+        loading || profile==null || profiles.length==0?<Spinner />:<React.Fragment>
             <Grid container spacing={3}>
                 {profiles.map(profile=><ProfileCard key={profile._id} profile={profile}/>)}
             </Grid>

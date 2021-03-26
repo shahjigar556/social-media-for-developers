@@ -19,6 +19,7 @@ router.post('/',auth,async (req,res)=>{
         })
 
         newPost=await newPost.save();
+        console.log(newPost);
         res.json(newPost);
 
     } catch (err) {
@@ -33,7 +34,7 @@ router.post('/',auth,async (req,res)=>{
 
 router.get('/',auth,async (req,res)=>{
     try {
-        const posts=await Post.find().sort({date:-1}); // sort in descending order
+        const posts=await Post.find().sort({Date:-1}); // sort in descending order
         res.json(posts);
     } catch (err) {
         console.error(err.message);
@@ -41,7 +42,7 @@ router.get('/',auth,async (req,res)=>{
     }
 })
 
-//  GET api/post/:post_id
+//  GET api/posts/:post_id
 //  DESC Get posts by Post id
 //  Private
 
@@ -61,7 +62,7 @@ router.get('/:post_id',auth,async(req,res)=>{
     }
 })
 
-// DELETE api/post/:post_id
+// DELETE api/posts/:post_id
 // DESC Delete a post by post_id
 // Private
 
@@ -72,7 +73,7 @@ router.delete('/:post_id',auth,async (req,res)=>{
          return res.status(400).json({msg:"Not authorized"});
      }
      // post is of the user
-     await Post.deleteOne({user:req.user.id});
+     await Post.findByIdAndDelete(req.params.post_id);
      res.json({msg:"Post deleted"});
      
  } catch (err) {
@@ -81,7 +82,7 @@ router.delete('/:post_id',auth,async (req,res)=>{
  }
 })
 
-//@PUT api/post/like/:post_id
+//@PUT api/posts/like/:post_id
 //@DESC Adding Like to a Post
 //Private
 
@@ -106,7 +107,7 @@ router.put('/like/:post_id',auth,async(req,res)=>{
         res.status(500).send("server Error");
     }
 })
-//@PUT api/post/like/:post_id
+//@PUT api/posts/dislike/:post_id
 //@DESC Removing Like to a Post
 //Private
 
@@ -127,7 +128,7 @@ router.put('/dislike/:post_id',auth,async(req,res)=>{
     }
 })
 
-//@PUT api/posts/post_id/comments
+//@PUT api/posts/comments/:post_id
 //@DESC Adding a comment to The database
 //Private
 router.put('/comments/:post_id',auth,async (req,res)=>{
@@ -150,7 +151,7 @@ router.put('/comments/:post_id',auth,async (req,res)=>{
         post.comments.unshift(newComment); 
         console.log(post.comments);
         await post.save();
-        res.json(post);
+        res.json(post.comments);
     } catch (err) {
         console.error(err.message);
         res.status(500).send("server error");

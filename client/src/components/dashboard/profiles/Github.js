@@ -35,9 +35,9 @@ const useStyles = makeStyles((theme) => ({
 function Repo({repo}){
    const classes=useStyles();
     return (
-        <AccordionDetails style={{display:'block'}}>
+        <AccordionDetails style={{display:'block',padding:'0px'}}>
             <ul>
-                <li>
+                <li style={{marginTop:'2px'}}>
                     <a href={repo.html_url} className={classes.links} target="_blank">
                         {repo.full_name}
                     </a>
@@ -62,7 +62,7 @@ function Github({username}) {
         <div className={classes.root}>        
             <h2 className={classes.heading}>Github Repos</h2>
             <a className={classes.links} href={github_url} target='_blank' style={{color:'#17a2b8'}}>
-                Visit Github Profile
+                <span><i className="fab fa-github fa-2x"></i></span>{' '}Github Profile
             </a>
             <Accordion className={classes.accordion}>
             <AccordionSummary
