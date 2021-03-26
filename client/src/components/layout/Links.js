@@ -29,9 +29,12 @@ export default function Links() {
     if(isAuthenticated){
         return(
           <React.Fragment>
-              <Button onClick={handleClick} variant="contained" color="primary">Logout</Button> 
+              <Button onClick={handleClick} variant="contained" color="secondary">Logout</Button> 
               <Link to='/developers' className={classes.links} style={{marginLeft:'10px'}}>
                    Developers
+              </Link>   
+              <Link to='/post' className={classes.links} style={{marginLeft:'10px'}}>
+                   Post
               </Link>   
           </React.Fragment>
         )
