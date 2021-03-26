@@ -9,6 +9,7 @@ import {makeStyles} from '@material-ui/core';
 import Experience from './Experience';
 import Education from './Education';
 import {deleteUser} from '../../Redux/profile/action';
+import Image from './Image'
 
 const useStyles = makeStyles((theme) => ({
    root:{
@@ -45,6 +46,12 @@ const useStyles = makeStyles((theme) => ({
        alignItems:'center',
        justifyContent:'center',
        marginLeft:'40px'
+   },
+   img:{
+       borderRadius:'50%',
+       height:'100px',
+       widthL:'100px',
+       marginLeft:'40px'
    }
  }));
   
@@ -67,7 +74,7 @@ const NoProfile=({name})=>{
      </React.Fragment>
 }
 
-const Profile=({name})=>{
+const Profile=({name,avatar})=>{
     const classes=useStyles();
     const profileData=useSelector(state=>state.profile);
     const {profile,loading}=profileData;
@@ -80,6 +87,15 @@ const Profile=({name})=>{
          <React.Fragment>
              <h1 className={classes.heading}>DashBoard</h1>
              <h3 className={classes.subHeading}>Welcome {name}</h3>
+             <img className={classes.img} src={avatar} alt="profile-image" />
+             <div>
+                {/* <a href="http://en.gravatar.com/" target="_blank" style={{textDecoration:'none'}}>
+                    <Button color="secondary" variant="contained" style={{marginLeft:'40px'}}>
+                        Upload Image
+                    </Button>
+                </a> */}
+                <Image />
+             </div>
                 <div className={classes.root}>
                     <React.Fragment>
                         <Link to='/edit-profile' style={{textDecoration:'none',paddingTop:'10px',marginRight:'10px'}}>
@@ -134,7 +150,7 @@ export default function Dashboard() {
     }
     return (
         <React.Fragment>
-            {profile!=null?<Profile name={user.user.name}/>:<NoProfile  name={user.user.name}/>}
+            {profile!=null?<Profile name={user.user.name} avatar={user.user.avatar}/>:<NoProfile  name={user.user.name}/>}
         </React.Fragment>
     )
 }
