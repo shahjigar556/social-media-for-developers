@@ -10,7 +10,7 @@ const ProfileSchema=mongoose.Schema({
   },
   website:{
       type:String
-  },
+  }, 
   location:{
       type:String
   },

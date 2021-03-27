@@ -88,13 +88,17 @@ function EditProfile({history}) {
             bio
           } = profileData.profile;
           
-          let {
-            twitter,
-            facebook,
-            linkedin,
-            youtube,
-            instagram
-          }=profileData.profile.social
+          if(profileData.profile.social)
+          {
+              let {
+                twitter,
+                facebook,
+                linkedin,
+                youtube,
+                instagram
+              }=profileData.profile.social
+
+          }
 
           skills=skills.join(',')
           const data={

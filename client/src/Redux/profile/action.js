@@ -26,7 +26,7 @@ export const getProfiles=()=>async dispatch=>{
     try {
         const resp=await axios.get('/api/profile');
         let profiles=[...resp.data];
-        
+        console.log('In get Profiles')
         profiles=await Promise.all(profiles.map(async (profile)=>{
             let user=await axios.get(`/api/users/${profile.user}`)
             const {name,email,avatar}=user.data;
@@ -36,11 +36,11 @@ export const getProfiles=()=>async dispatch=>{
             profile.avatar=avatar;
             return profile;
         }))
-        
+        console.log('Here');
         dispatch({
             type:GET_PROFILES,
             payload:profiles
-        })
+        }) 
        
 
     } catch (err) {

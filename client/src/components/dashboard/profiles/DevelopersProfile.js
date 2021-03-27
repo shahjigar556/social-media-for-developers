@@ -15,10 +15,10 @@ function DevelopersProfile() {
     
     if(profile)
        profiles=profiles.filter(p=>p.user!=profile.user)
-    else 
-       dispatch(getProfile());
+  
 
     useEffect(()=>{
+        console.log('In use Effect')
        dispatch(getProfiles());
     },[])
     
