@@ -3,10 +3,9 @@ import { makeStyles } from "@material-ui/core/styles";
 import {useState} from 'react';
 import Button from "@material-ui/core/Button";
 import {useDispatch,useSelector} from 'react-redux';
-import {login} from '../../Redux/auth/actions';
+import {setAlert,removeAlert} from '../../Redux/alert/actions';
+import {reset} from '../../Redux/auth/actions';
 import {Redirect} from 'react-router-dom';
-import {Link} from 'react-router-dom';
-
 const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
@@ -30,77 +29,60 @@ const useStyles = makeStyles((theme) => ({
   },
  
 }));
-function Login() {
+function ResetPassword({history,match}) {
   const classes = useStyles();
-  const dispatch = useDispatch();
-  const user=useSelector(state=>state.auth)
-  const {isAuthenticated}=user;
+  const dispatch = useDispatch()
+
   const [formData,setFormData]=useState({
-    name:'',
-    email:'',
     password:'',
+    confirmPassword:''
   })
 
-  const handleChange=(e)=>{
+  const handleChange=async (e)=>{
     setFormData({...formData,[e.target.name]:e.target.value})
   }
 
-  const handleSubmit=async ()=>{
-    console.log(formData)
-    const {name,email,password}=formData;
-    dispatch(login(formData));
+  const handleSubmit=()=>{
+    if(formData.password!==formData.confirmPassword){
+      dispatch(setAlert("Password does not match"));
+    }
+    else{
+      const {password}=formData;
+      dispatch(reset({password},match.params.id,history))
+    }
   }
 
-  if(isAuthenticated){
-    return(
-      <Redirect to='/dashboard'/>
-    )
-  }
   return (
     <React.Fragment>
       <div className={classes.root}>
-        <h1 className={classes.heading}>Login</h1>
+        <h1 className={classes.heading}>Password Create</h1>
         <p style={{ fontSize: "25px" }}>
           <span style={{ marginRight: "10px" }}>
             <i className="fas fa-user"></i>
           </span>
-          Access Your Account
+          Create Your Password
         </p>
         <form className={classes.form} >
-          
-          <input
-            type="text"
-            name="name"
-            placeholder="Name"
-            className={classes.inputs}
-            onChange={(e)=>handleChange(e)}
-            required
-          />
-          <input
-            type="text"
-            name="email"
-            placeholder="Email"
-            className={classes.inputs}
-            onChange={(e)=>handleChange(e)}
-            required
-          />
-
           <input
             type="password"
             name="password"
             placeholder="Password"
             className={classes.inputs}
             onChange={(e)=>handleChange(e)}
-            required
-          />        
+          />
+
+          <input
+            type="password"
+            name="confirmPassword"
+            placeholder="Confirm Password"
+            className={classes.inputs}
+            onChange={(e)=>handleChange(e)}
+          />
         </form>
-        <Button onClick={handleSubmit} color="primary" variant="contained">Login</Button>
-        <Link to='/forgotPassword' style={{textDecoration:'none',marginTop:'10px'}}>
-          <Button color="primary" variant="contained">Forgot Password</Button>
-        </Link>
+        <Button onClick={handleSubmit} color="primary" variant="contained">Reset</Button>
       </div>
     </React.Fragment>
   );
 }
 
-export default Login;
+export default ResetPassword;

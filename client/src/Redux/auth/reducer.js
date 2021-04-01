@@ -1,4 +1,4 @@
-import {REGISTER_FAIL,REGISTER_SUCCESS,USER_LOADED,AUTH_ERR,LOGIN_SUCCESS,LOGIN_FAILURE,LOGOUT_USER} from './actionTypes';
+import {REGISTER_FAIL,REGISTER_SUCCESS,USER_LOADED,AUTH_ERR,LOGIN_SUCCESS,LOGIN_FAILURE,LOGOUT_USER,RESET_SUCCESS} from './actionTypes';
 import setAuthToken from '../../utils/setAuthToken';
 const initialState={
     token:localStorage.getItem('token'),
@@ -11,6 +11,7 @@ const reducer=(state=initialState,action)=>{
     switch(type){
         case REGISTER_SUCCESS:
         case LOGIN_SUCCESS:
+        case RESET_SUCCESS:
             localStorage.setItem('token',payload.token);
             setAuthToken(localStorage.token);
             return {

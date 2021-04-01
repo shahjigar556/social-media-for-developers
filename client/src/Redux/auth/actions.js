@@ -1,4 +1,4 @@
-import {REGISTER_SUCCESS,REGISTER_FAIL,USER_LOADED,AUTH_ERR,LOGIN_SUCCESS,LOGIN_FAILURE, LOGOUT_USER} from './actionTypes';
+import {REGISTER_SUCCESS,REGISTER_FAIL,USER_LOADED,AUTH_ERR,LOGIN_SUCCESS,LOGIN_FAILURE, LOGOUT_USER,RESET_SUCCESS} from './actionTypes';
 
 import axios from 'axios';
 import setAuthToken from '../../utils/setAuthToken';
@@ -83,4 +83,52 @@ export const logout=()=>dispatch=>{
     dispatch({
         type:LOGOUT_USER
     })
+}
+
+// Forgot Password
+export const forgot=(formData)=>async dispatch=>{
+    try {
+        const config={
+            headers:{
+                'content-type':'application/json'
+            }
+        }   
+       
+        const userObj=JSON.stringify(formData);
+        const resp=await axios.post('/api/auth/password',userObj,config);
+        console.log(resp.data);
+        const msg=resp.data.msg || ' ';
+        if(msg=='User Not Registered' || msg=='Internal server error'){
+            dispatch(setAlert(msg));
+        }
+        else {
+            dispatch(setAlert('Mail sent'))
+        }
+        
+    } catch (err) {
+        console.log(err)
+    }
+}
+
+//reset Password
+export const reset=(formData,id,history)=>async dispatch=>{
+   try {
+       const config={
+           headers:{
+               'content-type':'application/json'
+           }
+       }
+       const resp=await axios.post(`/api/auth/reset/${id}`,formData,config)
+       console.log(resp.data);
+       dispatch({
+           type:RESET_SUCCESS,
+           payload:resp.data
+       })
+       console.log('Password updated ....');
+       dispatch(setAlert('Password Updated SuccessFully'))
+       history.push('/');
+       dispatch(loadUser());
+   } catch (err) {
+       
+   }
 }

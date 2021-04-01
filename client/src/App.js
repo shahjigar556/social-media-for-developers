@@ -20,6 +20,8 @@ import DevelopersProfile from './components/dashboard/profiles/DevelopersProfile
 import IndividualProfile from './components/dashboard/profiles/IndividualProfile';
 import Post from './components/post/Post';
 import SinglePost from './components/post/post/SinglePost';
+import ForgotPassword from './components/auth/ForgotPassword';
+import ResetPassword from './components/auth/ResetPassword';
 
 if(localStorage.token)
      setAuthToken(localStorage.token)
@@ -38,9 +40,11 @@ function App() {
           <Route exact path='/' component={Landing} />
           <Switch>
               <Route exact path='/register' component={Register} />
-              <Route excat path='/login' component={Login} />
-              <Route excat path='/developers' component={DevelopersProfile} />
-              <Route excat path='/profile/:id' component={IndividualProfile} />
+              <Route exact path='/login' component={Login} />
+              <Route exact path='/developers' component={DevelopersProfile} />
+              <Route exact path='/profile/:id' component={IndividualProfile} />
+              <Route exact path='/forgotPassword' component={ForgotPassword} />
+              <Route exact path='/reset/:id' component={ResetPassword} />
               <PrivateRoute excat path='/dashboard' component={DashBoard} />
               <PrivateRoute exact path='/create-profile' component={CreateProfile} />
               <PrivateRoute exact path='/edit-profile' component={EditProfile} />
